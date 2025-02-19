@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Programação para WEB</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    /* Estilos gerais */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+    }
+    /* Cabeçalho */
+    .gradient-header {
+      background: linear-gradient(90deg, #3a7bd5, #3a6073);
+      color: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+    .gradient-header h1,
+    .gradient-header p {
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    }
+    /* Sidebar */
+    .sidebar {
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(8px);
+      min-height: 100vh;
+      border-right: 1px solid rgba(0,0,0,0.1);
+    }
+    .sidebar h2 {
+      font-size: 1.25rem;
+      color: #2c3e50;
+    }
+    .sidebar .nav-link {
+      color: #2c3e50;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    .sidebar .nav-link:hover {
+      background: #3a6073;
+      color: #fff;
+      border-radius: 4px;
+    }
+    /* Conteúdo principal */
+    main {
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      border-radius: 10px;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+      padding: 2rem;
+    }
+    /* Botões criativos */
+    .btn-creative {
+      background: linear-gradient(45deg, #36D1DC, #5B86E5);
+      border: none;
+      border-radius: 50px;
+      padding: 0.75rem 1.5rem;
+      font-weight: 600;
+      transition: background 0.3s ease;
+      color: #fff;
+    }
+    .btn-creative:hover {
+      background: linear-gradient(45deg, #5B86E5, #36D1DC);
+    }
+    /* Rodapé */
+    footer {
+      background: #2c3e50;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <!-- Cabeçalho -->
+  <header class="gradient-header text-center py-4">
+    <div class="container">
+      <h1>Disciplina de Programação para WEB</h1>
+      <p>Aulas e materiais de estudo</p>
+    </div>
+  </header>
+  
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sidebar para telas grandes -->
+      <nav class="col-lg-3 d-none d-lg-block sidebar p-4">
+        <h2>Professor</h2>
+        <div class="d-flex align-items-center my-3">
+          <img src="https://avatars.githubusercontent.com/u/51802728?v=4" alt="Foto do Professor" class="rounded-circle me-3" width="80" height="80">
+          <div>
+            <h3 class="h6 mb-1">Prof. Msc Nator Junior</h3>
+            <p class="small" style="text-align: justify;">
+              Mestre em Ciência da Computação, com ênfase em <strong>Programação, Otimização, Algoritmos e Inteligência Computacional</strong>.
+            </p>
+          </div>
+        </div>
+        <hr>
+        <h2>Menu</h2>
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a href="#" class="nav-link">Início</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">Sobre</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">Contato</a>
+          </li>
+        </ul>
+      </nav>
+  
+      <!-- Offcanvas para telas pequenas -->
+      <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMobile" aria-labelledby="sidebarMobileLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="sidebarMobileLabel">Menu</h5>
+          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
+        </div>
+        <div class="offcanvas-body">
+          <h2>Professor</h2>
+          <div class="d-flex align-items-center my-3">
+            <img src="https://avatars.githubusercontent.com/u/51802728?v=4" alt="Foto do Professor" class="rounded-circle me-3" width="80" height="80">
+            <div>
+              <h3 class="h6 mb-1">Prof. Msc Nator Junior</h3>
+              <p class="small" style="text-align: justify;">
+                Mestre em Ciência da Computação, com ênfase em <strong>Programação, Otimização, Algoritmos e Inteligência Computacional</strong>.
+              </p>
+            </div>
+          </div>
+          <hr>
+          <h2>Menu</h2>
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a href="#" class="nav-link">Início</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">Sobre</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">Contato</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+  
+      <!-- Conteúdo Principal -->
+      <main class="col-lg-9 p-4">
+        <!-- Botão de menu para telas pequenas -->
+        <div class="d-lg-none mb-3">
+          <button class="btn btn-creative" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMobile" aria-controls="sidebarMobile">
+            Menu
+          </button>
+        </div>
+        <!-- Seção Sobre a Disciplina -->
+        <section class="mb-4">
+          <h2 class="mb-3">Sobre a Disciplina</h2>
+          <p style="text-align: justify;">
+            Nesta disciplina, você aprenderá os conceitos fundamentais de <strong>desenvolvimento web</strong>, incluindo técnicas de <strong>HTML, CSS e JavaScript</strong>, além de frameworks e bibliotecas populares, como React, Vue ou Angular. Também serão abordados conceitos de backend (Node.js, banco de dados e APIs), boas práticas de versionamento e hospedagem. Nosso objetivo é capacitar você a planejar e desenvolver aplicações web modernas, responsivas e escaláveis.
+          </p>
+        </section>
+        <!-- Seção Aulas Disponíveis -->
+        <section>
+          <h2 class="mb-3">Aulas Disponíveis</h2>
+          <ul id="aulas-list" class="list-unstyled">
+            <!-- Conteúdo das aulas será carregado via JavaScript -->
+          </ul>
+        </section>
+      </main>
+    </div>
+  </div>
+  
+  <!-- Rodapé -->
+  <footer class="text-center py-3 mt-4">
+    <div class="container">
+      <p class="mb-0">&copy; 2025 | Programação para WEB - Prof. Nome Sobrenome. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+  
+  <!-- Bootstrap JS (inclui Popper) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Script para carregar as aulas -->
+  <script>
+    document.addEventListener("DOMContentLoaded", async function() {
+      const listaAulas = document.getElementById("aulas-list");
+      try {
+        const response = await fetch('/aulas/'); // Ajuste conforme necessário
+        const html = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const links = Array.from(doc.querySelectorAll('a'));
+        const aulaLinks = links.filter(link => link.href.includes('aula') && link.href.endsWith('.html'));
+        
+        if (aulaLinks.length === 0) {
+          listaAulas.innerHTML = '<p style="text-align: justify;">Nenhuma aula disponível no momento.</p>';
+          return;
+        }
+        
+        aulaLinks.forEach((link, index) => {
+          let li = document.createElement("li");
+          li.className = "mb-3";
+          li.innerHTML = `
+            <a 
+              href="${link.href}" 
+              class="btn btn-creative w-100"
+            >
+              💻 Aula ${index + 1}
+            </a>
+          `;
+          listaAulas.appendChild(li);
+        });
+      } catch (error) {
+        console.error("Erro ao carregar aulas: ", error);
+        listaAulas.innerHTML = '<p style="text-align: justify; color: red;">Erro ao carregar aulas.</p>';
+      }
+    });
+  </script>
+</body>
+</html>
