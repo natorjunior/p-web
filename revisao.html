@@ -1,0 +1,1736 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8">
+<title>Revisão — Programação Web</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/theme/black.css">
+
+<style>
+/* ─── Design Tokens ─────────────────────────────────── */
+:root {
+  --bg:        #0a0e1a;
+  --surface:   #111827;
+  --card:      #1a2235;
+  --card-hi:   #232d44;
+  --border:    rgba(255,255,255,0.10);
+  --border-hi: rgba(255,255,255,0.18);
+  --cyan:      #38bdf8;
+  --teal:      #2dd4bf;
+  --amber:     #fbbf24;
+  --red:       #f87171;
+  --purple:    #c084fc;
+  --text:      #e2e8f0;
+  --text-dim:  #94a3b8;
+  --muted:     #64748b;
+  --mono:      'IBM Plex Mono', monospace;
+  --serif:     'Fraunces', serif;
+  --sans:      'DM Sans', sans-serif;
+  --r-sm:      6px;
+  --r-md:      10px;
+  --r-lg:      14px;
+}
+
+/* ─── Base ──────────────────────────────────────────── */
+.reveal {
+  font-family: var(--sans);
+  font-size: 26px;
+  color: var(--text);
+  background: var(--bg);
+}
+.reveal .slides section {
+  text-align: left;
+  padding: 40px 48px;
+  box-sizing: border-box;
+}
+.reveal .slides > section > section {
+  padding: 40px 48px;
+}
+
+/* Subtle ambient grid */
+.reveal::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 10%, rgba(56,189,248,0.05), transparent 50%),
+    radial-gradient(circle at 80% 90%, rgba(45,212,191,0.04), transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Typography ─────────────────────────────────────── */
+.reveal h1 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 2.6em;
+  color: #fff;
+  letter-spacing: -1.5px;
+  line-height: 1.05;
+  margin: 0 0 0.4em;
+}
+.reveal h2 {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: 1.8em;
+  color: #fff;
+  letter-spacing: -0.5px;
+  line-height: 1.15;
+  margin: 0 0 0.6em;
+}
+.reveal h3 {
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 0.6em;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 3.5px;
+  margin: 0 0 1em;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.reveal h3::before {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--cyan);
+  opacity: 0.6;
+}
+.reveal p { font-weight: 300; margin: 0 0 0.5em; }
+
+/* ─── Cover ─────────────────────────────────────────── */
+.cover {
+  text-align: center !important;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+.cover-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.4em;
+  color: var(--muted);
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.cover-eyebrow::before,
+.cover-eyebrow::after {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: var(--muted);
+  opacity: 0.5;
+}
+.cover h1 {
+  font-size: 3.6em;
+  background: linear-gradient(160deg, #fff 35%, var(--cyan) 90%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+}
+.cover-sub {
+  font-size: 0.55em;
+  color: var(--text-dim);
+  font-weight: 300;
+  margin-top: 24px;
+  max-width: 500px;
+  line-height: 1.7;
+}
+.cover-pills {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 36px;
+  flex-wrap: wrap;
+}
+.pill {
+  font-family: var(--mono);
+  font-size: 0.4em;
+  font-weight: 500;
+  padding: 7px 16px;
+  border-radius: var(--r-sm);
+  border: 1px solid;
+  letter-spacing: 1.5px;
+}
+.pill-b { border-color: rgba(56,189,248,0.4);  color: var(--cyan);  background: rgba(56,189,248,0.06); }
+.pill-g { border-color: rgba(45,212,191,0.4);  color: var(--teal);  background: rgba(45,212,191,0.06); }
+.pill-a { border-color: rgba(251,191,36,0.4);  color: var(--amber); background: rgba(251,191,36,0.06); }
+
+/* ─── Section intro ──────────────────────────────────── */
+.sec-intro {
+  text-align: center !important;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.sec-num {
+  font-family: var(--mono);
+  font-size: 0.42em;
+  color: var(--cyan);
+  letter-spacing: 5px;
+  margin-bottom: 18px;
+  padding: 6px 16px;
+  border: 1px solid rgba(56,189,248,0.3);
+  border-radius: 100px;
+  background: rgba(56,189,248,0.06);
+}
+.sec-intro h2 { margin-bottom: 0; }
+.sec-tagline {
+  font-size: 0.5em;
+  color: var(--text-dim);
+  margin-top: 16px;
+  max-width: 480px;
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+/* ─── Slide title bar ────────────────────────────────── */
+.slide-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.slide-title h3 { margin: 0; }
+.slide-title .slide-num {
+  font-family: var(--mono);
+  font-size: 0.5em;
+  color: var(--muted);
+  letter-spacing: 2px;
+}
+
+/* ─── Cards ─────────────────────────────────────────── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 24px 28px;
+  box-sizing: border-box;
+}
+.card-line {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--cyan);
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+  padding: 20px 24px;
+  box-sizing: border-box;
+}
+.card-line-a { border-left-color: var(--amber); }
+.card-line-t { border-left-color: var(--teal); }
+.card-line-r { border-left-color: var(--red); }
+.card-line-p { border-left-color: var(--purple); }
+
+/* ─── Lists ─────────────────────────────────────────── */
+.reveal ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.reveal ul li {
+  font-size: 0.7em;
+  padding: 13px 18px;
+  border-radius: var(--r-sm);
+  background: rgba(255,255,255,0.025);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  line-height: 1.5;
+  transition: background 0.2s, border-color 0.2s;
+}
+.reveal ul li:hover {
+  background: rgba(255,255,255,0.04);
+  border-color: var(--border-hi);
+}
+.reveal ul li::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--cyan);
+  border-radius: 50%;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+/* ─── Code blocks ──────────────────────────────────── */
+.reveal pre {
+  background: #060b14;
+  border: 1px solid rgba(56,189,248,0.12);
+  border-radius: var(--r-md);
+  padding: 22px 26px;
+  font-size: 0.62em;
+  width: 100%;
+  margin: 0;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+  box-sizing: border-box;
+  position: relative;
+}
+.reveal pre::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 30px;
+  background: rgba(255,255,255,0.025);
+  border-bottom: 1px solid var(--border);
+  border-radius: var(--r-md) var(--r-md) 0 0;
+}
+.reveal pre::after {
+  content: '';
+  position: absolute;
+  top: 11px; left: 16px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #475569;
+  box-shadow: 14px 0 0 #475569, 28px 0 0 #475569;
+}
+.reveal pre code {
+  font-family: var(--mono);
+  background: transparent;
+  padding: 18px 0 0 0;
+  line-height: 1.75;
+  display: block;
+}
+.kw { color: #f472b6; }
+.tag { color: var(--cyan); }
+.at  { color: var(--teal); }
+.vl  { color: var(--amber); }
+.cm  { color: var(--muted); font-style: italic; }
+.sel { color: var(--cyan); }
+.pr  { color: var(--purple); }
+.nu  { color: var(--amber); }
+
+/* ─── Grids ─────────────────────────────────────────── */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+.g4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; }
+
+/* ─── Micro card ─────────────────────────────────────── */
+.mc {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 20px 22px;
+  box-sizing: border-box;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.mc::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--cyan), transparent);
+  opacity: 0.6;
+}
+.mc:hover {
+  border-color: rgba(56,189,248,0.3);
+  background: var(--card-hi);
+}
+.mc-icon {
+  width: 42px;
+  height: 42px;
+  display: block;
+  margin-bottom: 14px;
+}
+.mc-label {
+  font-family: var(--mono);
+  font-size: 0.5em;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 1.8px;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+.mc-desc {
+  font-size: 0.5em;
+  color: var(--text-dim);
+  line-height: 1.55;
+  font-weight: 300;
+}
+
+/* ─── Inline code ────────────────────────────────────── */
+code {
+  font-family: var(--mono);
+  font-size: 0.85em;
+  color: var(--cyan);
+  background: rgba(56,189,248,0.1);
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(56,189,248,0.15);
+}
+
+/* ─── Two-col layouts ────────────────────────────────── */
+.two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: center;
+}
+.two-wide {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 32px;
+  align-items: center;
+}
+.two-narrow {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 32px;
+  align-items: center;
+}
+
+/* ─── Reveal fragments ──────────────────────────────── */
+.reveal .fragment { transition: all 0.4s ease; }
+
+/* ─── Final ──────────────────────────────────────────── */
+.final {
+  text-align: center !important;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.final h1 {
+  font-size: 3em;
+  background: linear-gradient(135deg, #fff 20%, var(--cyan) 60%, var(--teal));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Quiz cards (interactive) ───────────────────────── */
+.quiz-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--amber);
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+  padding: 18px 22px;
+  font-size: 0.66em;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+}
+.quiz-card:hover {
+  background: var(--card-hi);
+  border-left-color: var(--cyan);
+  transform: translateX(4px);
+}
+.quiz-card .q-num {
+  font-family: var(--mono);
+  color: var(--amber);
+  font-weight: 600;
+  margin-right: 10px;
+  font-size: 0.85em;
+}
+.quiz-card .q-answer {
+  display: none;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--border);
+  font-size: 0.85em;
+  color: var(--text-dim);
+  font-weight: 300;
+  line-height: 1.6;
+}
+.quiz-card.open .q-answer { display: block; }
+.quiz-card .q-toggle {
+  position: absolute;
+  right: 18px;
+  top: 18px;
+  font-family: var(--mono);
+  color: var(--muted);
+  font-size: 0.85em;
+  transition: transform 0.3s;
+}
+.quiz-card.open .q-toggle { transform: rotate(45deg); color: var(--cyan); }
+
+/* ─── SVG illustration wrapper ──────────────────────── */
+.illu {
+  background: linear-gradient(180deg, #060b14, #0a1220);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 24px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.illu svg { display: block; width: 100%; height: auto; }
+
+/* ─── Stat badges ────────────────────────────────────── */
+.stat-row {
+  display: flex;
+  gap: 14px;
+  margin-top: 14px;
+}
+.stat {
+  flex: 1;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 12px 16px;
+  text-align: center;
+}
+.stat-num {
+  font-family: var(--serif);
+  font-size: 1.4em;
+  font-weight: 600;
+  color: var(--cyan);
+  display: block;
+  line-height: 1;
+}
+.stat-label {
+  font-family: var(--mono);
+  font-size: 0.42em;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-top: 6px;
+  display: block;
+}
+
+/* ─── Interactive demo box ───────────────────────────── */
+.demo-box {
+  background: #fff;
+  color: #1a2235;
+  padding: 24px;
+  border-radius: var(--r-md);
+  font-family: var(--sans);
+  font-size: 0.7em;
+  margin-top: 12px;
+}
+.demo-link {
+  color: #2563eb;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.demo-link:hover { color: #f87171; }
+
+/* ─── Tip / note callouts ────────────────────────────── */
+.note {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: rgba(56,189,248,0.06);
+  border: 1px solid rgba(56,189,248,0.2);
+  border-radius: var(--r-sm);
+  padding: 14px 18px;
+  font-size: 0.6em;
+  color: var(--text-dim);
+  font-weight: 300;
+  line-height: 1.6;
+  margin-top: 16px;
+}
+.note::before {
+  content: 'i';
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--cyan);
+  color: #060b14;
+  font-family: var(--serif);
+  font-weight: 600;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1em;
+}
+</style>
+</head>
+
+<body>
+<div class="reveal"><div class="slides">
+
+<!-- ═══════════════════════════════════════ CAPA -->
+<section class="cover">
+  <p class="cover-eyebrow">Programação Web · Revisão Geral</p>
+
+  <svg width="92" height="92" viewBox="0 0 92 92" style="margin-bottom: 22px">
+    <circle cx="46" cy="46" r="40" fill="none" stroke="rgba(56,189,248,0.2)" stroke-width="1"/>
+    <circle cx="46" cy="46" r="40" fill="none" stroke="url(#capgrad)" stroke-width="1.5" stroke-dasharray="180 100" stroke-linecap="round"/>
+    <ellipse cx="46" cy="46" rx="40" ry="16" fill="none" stroke="rgba(45,212,191,0.3)" stroke-width="1"/>
+    <ellipse cx="46" cy="46" rx="16" ry="40" fill="none" stroke="rgba(45,212,191,0.3)" stroke-width="1"/>
+    <line x1="6" y1="46" x2="86" y2="46" stroke="rgba(56,189,248,0.25)" stroke-width="1"/>
+    <circle cx="46" cy="46" r="4" fill="var(--cyan)"/>
+    <defs>
+      <linearGradient id="capgrad" x1="0" y1="0" x2="92" y2="92">
+        <stop offset="0" stop-color="#38bdf8"/>
+        <stop offset="1" stop-color="#2dd4bf"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <h1>HTML, CSS<br>&amp; a Web</h1>
+  <p class="cover-sub">Do protocolo HTTP à estilização com CSS — uma revisão estruturada e visual da base do desenvolvimento web.</p>
+  <div class="cover-pills">
+    <span class="pill pill-b">HTML5</span>
+    <span class="pill pill-g">CSS3</span>
+    <span class="pill pill-a">Web Fundamentals</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ WEB -->
+<section>
+  <section class="sec-intro">
+    <p class="sec-num">Capítulo 01</p>
+    <h2>Como funciona<br>a Web?</h2>
+    <p class="sec-tagline">Entenda o caminho que sua requisição percorre, do browser até o servidor — e de volta.</p>
+  </section>
+
+  <section>
+    <div class="slide-title">
+      <h3>Ciclo de uma requisição HTTP</h3>
+      <span class="slide-num">01 · 01</span>
+    </div>
+    <div class="illu">
+      <svg viewBox="0 0 720 280" role="img">
+        <title>Ciclo HTTP completo: browser, DNS, servidor</title>
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M2 1L9 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+          <linearGradient id="reqGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#38bdf8" stop-opacity="0.3"/>
+            <stop offset="1" stop-color="#38bdf8"/>
+          </linearGradient>
+          <linearGradient id="resGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#2dd4bf"/>
+            <stop offset="1" stop-color="#2dd4bf" stop-opacity="0.3"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Browser -->
+        <g>
+          <rect x="30" y="60" width="170" height="130" rx="12" fill="#0f172a" stroke="rgba(56,189,248,0.4)" stroke-width="1.2"/>
+          <rect x="30" y="60" width="170" height="28" rx="12" fill="rgba(56,189,248,0.12)"/>
+          <rect x="30" y="76" width="170" height="12" fill="rgba(56,189,248,0.12)"/>
+          <circle cx="48" cy="74" r="4" fill="#f87171"/>
+          <circle cx="62" cy="74" r="4" fill="#fbbf24"/>
+          <circle cx="76" cy="74" r="4" fill="#4ade80"/>
+          <rect x="92" y="68" width="96" height="12" rx="6" fill="rgba(255,255,255,0.08)"/>
+          <rect x="46" y="102" width="138" height="8" rx="3" fill="rgba(255,255,255,0.1)"/>
+          <rect x="46" y="118" width="100" height="6" rx="3" fill="rgba(255,255,255,0.06)"/>
+          <rect x="46" y="132" width="120" height="6" rx="3" fill="rgba(255,255,255,0.06)"/>
+          <rect x="46" y="146" width="86" height="6" rx="3" fill="rgba(255,255,255,0.06)"/>
+          <rect x="46" y="162" width="110" height="6" rx="3" fill="rgba(255,255,255,0.06)"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="11" fill="#38bdf8" x="115" y="212" text-anchor="middle" font-weight="600">BROWSER</text>
+          <text font-family="DM Sans, sans-serif" font-size="10" fill="#64748b" x="115" y="226" text-anchor="middle">cliente</text>
+        </g>
+
+        <!-- DNS center -->
+        <g>
+          <rect x="304" y="84" width="112" height="82" rx="10" fill="#0f172a" stroke="rgba(251,191,36,0.4)" stroke-width="1.2"/>
+          <circle cx="360" cy="115" r="14" fill="none" stroke="#fbbf24" stroke-width="1.2"/>
+          <ellipse cx="360" cy="115" rx="14" ry="6" fill="none" stroke="#fbbf24" stroke-width="1"/>
+          <line x1="346" y1="115" x2="374" y2="115" stroke="#fbbf24" stroke-width="1"/>
+          <line x1="360" y1="101" x2="360" y2="129" stroke="#fbbf24" stroke-width="1"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="10" fill="#fbbf24" x="360" y="148" text-anchor="middle" font-weight="600">DNS</text>
+          <text font-family="DM Sans, sans-serif" font-size="9" fill="#64748b" x="360" y="160" text-anchor="middle">ip lookup</text>
+        </g>
+
+        <!-- Server -->
+        <g>
+          <rect x="520" y="60" width="170" height="130" rx="12" fill="#0f172a" stroke="rgba(45,212,191,0.4)" stroke-width="1.2"/>
+          <rect x="540" y="78" width="130" height="22" rx="4" fill="rgba(45,212,191,0.1)" stroke="rgba(45,212,191,0.3)" stroke-width="0.8"/>
+          <circle cx="552" cy="89" r="2.5" fill="#4ade80"/>
+          <rect x="562" y="86" width="40" height="6" rx="2" fill="rgba(255,255,255,0.1)"/>
+          <rect x="540" y="106" width="130" height="22" rx="4" fill="rgba(45,212,191,0.1)" stroke="rgba(45,212,191,0.3)" stroke-width="0.8"/>
+          <circle cx="552" cy="117" r="2.5" fill="#4ade80"/>
+          <rect x="562" y="114" width="60" height="6" rx="2" fill="rgba(255,255,255,0.1)"/>
+          <rect x="540" y="134" width="130" height="22" rx="4" fill="rgba(45,212,191,0.1)" stroke="rgba(45,212,191,0.3)" stroke-width="0.8"/>
+          <circle cx="552" cy="145" r="2.5" fill="#4ade80"/>
+          <rect x="562" y="142" width="50" height="6" rx="2" fill="rgba(255,255,255,0.1)"/>
+          <rect x="540" y="162" width="130" height="22" rx="4" fill="rgba(45,212,191,0.1)" stroke="rgba(45,212,191,0.3)" stroke-width="0.8"/>
+          <circle cx="552" cy="173" r="2.5" fill="#4ade80"/>
+          <rect x="562" y="170" width="70" height="6" rx="2" fill="rgba(255,255,255,0.1)"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="11" fill="#2dd4bf" x="605" y="212" text-anchor="middle" font-weight="600">SERVIDOR</text>
+          <text font-family="DM Sans, sans-serif" font-size="10" fill="#64748b" x="605" y="226" text-anchor="middle">backend</text>
+        </g>
+
+        <!-- Request flow -->
+        <path d="M204 108 L300 108" stroke="url(#reqGrad)" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+        <text font-family="IBM Plex Mono, monospace" font-size="10" fill="#38bdf8" x="252" y="100" text-anchor="middle" font-weight="500">request →</text>
+        <path d="M420 108 L516 108" stroke="url(#reqGrad)" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+        <text font-family="IBM Plex Mono, monospace" font-size="10" fill="#38bdf8" x="468" y="100" text-anchor="middle" font-weight="500">→</text>
+
+        <!-- Response flow -->
+        <path d="M516 142 L420 142" stroke="url(#resGrad)" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+        <text font-family="IBM Plex Mono, monospace" font-size="10" fill="#2dd4bf" x="468" y="160" text-anchor="middle" font-weight="500">←</text>
+        <path d="M300 142 L204 142" stroke="url(#resGrad)" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+        <text font-family="IBM Plex Mono, monospace" font-size="10" fill="#2dd4bf" x="252" y="160" text-anchor="middle" font-weight="500">← response</text>
+
+        <!-- Footer label -->
+        <line x1="30" y1="252" x2="690" y2="252" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+        <text font-family="IBM Plex Mono, monospace" font-size="10" fill="#64748b" x="360" y="270" text-anchor="middle">payload: HTML · CSS · JS · imagens · JSON</text>
+      </svg>
+    </div>
+  </section>
+
+  <section>
+    <div class="slide-title">
+      <h3>Componentes da Web</h3>
+      <span class="slide-num">01 · 02</span>
+    </div>
+    <div class="g2">
+      <div class="mc fragment">
+        <svg class="mc-icon" viewBox="0 0 42 42">
+          <rect x="4" y="8" width="34" height="26" rx="3" fill="none" stroke="#38bdf8" stroke-width="1.8"/>
+          <line x1="4" y1="14" x2="38" y2="14" stroke="#38bdf8" stroke-width="1.8"/>
+          <circle cx="8" cy="11" r="0.9" fill="#38bdf8"/>
+          <circle cx="11" cy="11" r="0.9" fill="#38bdf8"/>
+          <circle cx="14" cy="11" r="0.9" fill="#38bdf8"/>
+          <rect x="8" y="19" width="20" height="2" rx="1" fill="#38bdf8" opacity="0.5"/>
+          <rect x="8" y="24" width="14" height="2" rx="1" fill="#38bdf8" opacity="0.3"/>
+          <rect x="8" y="28" width="22" height="2" rx="1" fill="#38bdf8" opacity="0.3"/>
+        </svg>
+        <div class="mc-label">Browser</div>
+        <div class="mc-desc">Interpreta e renderiza HTML, CSS e JavaScript para o usuário final. Chrome, Firefox, Safari e Edge são exemplos.</div>
+      </div>
+      <div class="mc fragment">
+        <svg class="mc-icon" viewBox="0 0 42 42">
+          <rect x="6" y="6" width="30" height="9" rx="2" fill="none" stroke="#2dd4bf" stroke-width="1.8"/>
+          <rect x="6" y="17" width="30" height="9" rx="2" fill="none" stroke="#2dd4bf" stroke-width="1.8"/>
+          <rect x="6" y="28" width="30" height="9" rx="2" fill="none" stroke="#2dd4bf" stroke-width="1.8"/>
+          <circle cx="10" cy="10.5" r="1.2" fill="#4ade80"/>
+          <circle cx="10" cy="21.5" r="1.2" fill="#4ade80"/>
+          <circle cx="10" cy="32.5" r="1.2" fill="#4ade80"/>
+          <rect x="15" y="9" width="14" height="3" rx="1" fill="#2dd4bf" opacity="0.4"/>
+          <rect x="15" y="20" width="14" height="3" rx="1" fill="#2dd4bf" opacity="0.4"/>
+          <rect x="15" y="31" width="14" height="3" rx="1" fill="#2dd4bf" opacity="0.4"/>
+        </svg>
+        <div class="mc-label">Servidor</div>
+        <div class="mc-desc">Processa requisições e responde com arquivos estáticos ou dados gerados dinamicamente.</div>
+      </div>
+      <div class="mc fragment">
+        <svg class="mc-icon" viewBox="0 0 42 42">
+          <circle cx="21" cy="21" r="15" fill="none" stroke="#fbbf24" stroke-width="1.8"/>
+          <ellipse cx="21" cy="21" rx="15" ry="6" fill="none" stroke="#fbbf24" stroke-width="1.2"/>
+          <ellipse cx="21" cy="21" rx="6" ry="15" fill="none" stroke="#fbbf24" stroke-width="1.2"/>
+          <line x1="6" y1="21" x2="36" y2="21" stroke="#fbbf24" stroke-width="1.2"/>
+        </svg>
+        <div class="mc-label">DNS</div>
+        <div class="mc-desc">Traduz nomes de domínio (<code>google.com</code>) em endereços IP numéricos que máquinas entendem.</div>
+      </div>
+      <div class="mc fragment">
+        <svg class="mc-icon" viewBox="0 0 42 42">
+          <path d="M11 26a7 7 0 010-14 9 9 0 0117.5 2.3A6 6 0 0130 26H11z" fill="none" stroke="#c084fc" stroke-width="1.8" stroke-linejoin="round"/>
+          <line x1="14" y1="30" x2="14" y2="34" stroke="#c084fc" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="20" y1="30" x2="20" y2="36" stroke="#c084fc" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="26" y1="30" x2="26" y2="34" stroke="#c084fc" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        <div class="mc-label">Hospedagem</div>
+        <div class="mc-desc">Infraestrutura física ou em nuvem onde os arquivos do site ficam armazenados e disponíveis 24/7.</div>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- ═══════════════════════════════════════ HTML -->
+<section>
+  <section class="sec-intro">
+    <p class="sec-num">Capítulo 02</p>
+    <h2>O que é HTML?</h2>
+    <p class="sec-tagline">A linguagem que dá estrutura e significado ao conteúdo de toda página da web.</p>
+  </section>
+
+  <section>
+    <div class="slide-title">
+      <h3>As três camadas da web</h3>
+      <span class="slide-num">02 · 01</span>
+    </div>
+    <div class="two">
+      <div>
+        <ul>
+          <li class="fragment"><strong>HTML</strong> &mdash; estrutura e conteúdo</li>
+          <li class="fragment"><strong>CSS</strong> &mdash; aparência e layout</li>
+          <li class="fragment"><strong>JavaScript</strong> &mdash; comportamento e interação</li>
+        </ul>
+        <div class="note fragment">
+          HTML é uma <strong>linguagem de marcação</strong>, não de programação. Ele descreve <em>o que</em> mostrar, não <em>como</em> processar.
+        </div>
+      </div>
+      <div class="illu fragment">
+        <svg viewBox="0 0 320 260" role="img">
+          <title>Pirâmide das três camadas: HTML, CSS, JavaScript</title>
+          <!-- HTML base -->
+          <g>
+            <rect x="20" y="180" width="280" height="56" rx="8" fill="rgba(56,189,248,0.14)" stroke="rgba(56,189,248,0.5)" stroke-width="1.2"/>
+            <text font-family="Fraunces, serif" font-size="20" fill="#38bdf8" x="160" y="208" text-anchor="middle" font-weight="600">HTML</text>
+            <text font-family="IBM Plex Mono, monospace" font-size="10" fill="#64748b" x="160" y="225" text-anchor="middle">estrutura · conteúdo</text>
+          </g>
+          <!-- CSS middle -->
+          <g>
+            <rect x="44" y="106" width="232" height="56" rx="8" fill="rgba(45,212,191,0.12)" stroke="rgba(45,212,191,0.5)" stroke-width="1.2"/>
+            <text font-family="Fraunces, serif" font-size="20" fill="#2dd4bf" x="160" y="134" text-anchor="middle" font-weight="600">CSS</text>
+            <text font-family="IBM Plex Mono, monospace" font-size="10" fill="#64748b" x="160" y="151" text-anchor="middle">estilo · aparência</text>
+          </g>
+          <!-- JS top -->
+          <g>
+            <rect x="68" y="32" width="184" height="56" rx="8" fill="rgba(251,191,36,0.10)" stroke="rgba(251,191,36,0.5)" stroke-width="1.2"/>
+            <text font-family="Fraunces, serif" font-size="20" fill="#fbbf24" x="160" y="60" text-anchor="middle" font-weight="600">JavaScript</text>
+            <text font-family="IBM Plex Mono, monospace" font-size="10" fill="#64748b" x="160" y="77" text-anchor="middle">comportamento</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="slide-title">
+      <h3>Arquivos HTML</h3>
+      <span class="slide-num">02 · 02</span>
+    </div>
+    <div class="g3">
+      <div class="card-line fragment">
+        <div class="mc-label">Extensão</div>
+        <p style="font-family: var(--mono); font-size: 0.85em; color: var(--text); margin-top: 8px"><span style="color:var(--amber)">arquivo</span><span style="color:var(--cyan)">.html</span></p>
+        <p style="font-size: 0.5em; color: var(--muted); margin-top: 8px">Também aceita <code>.htm</code></p>
+      </div>
+      <div class="card-line card-line-t fragment">
+        <div class="mc-label" style="color: var(--teal)">Arquivo principal</div>
+        <p style="font-family: var(--mono); font-size: 0.85em; color: var(--teal); margin-top: 8px">index.html</p>
+        <p style="font-size: 0.5em; color: var(--muted); margin-top: 8px">Carregado por padrão pelo servidor</p>
+      </div>
+      <div class="card-line card-line-a fragment">
+        <div class="mc-label" style="color: var(--amber)">Encoding</div>
+        <p style="font-family: var(--mono); font-size: 0.85em; color: var(--amber); margin-top: 8px">UTF-8</p>
+        <p style="font-size: 0.5em; color: var(--muted); margin-top: 8px">Suporta acentuação e símbolos</p>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- ═══════════════════════════════════════ ESTRUTURA -->
+<section>
+  <section class="sec-intro">
+    <p class="sec-num">Capítulo 03</p>
+    <h2>Estrutura HTML</h2>
+    <p class="sec-tagline">O esqueleto que toda página precisa para funcionar corretamente.</p>
+  </section>
+
+  <section>
+    <div class="slide-title">
+      <h3>Esqueleto básico &amp; árvore DOM</h3>
+      <span class="slide-num">03 · 01</span>
+    </div>
+    <div class="two">
+      <pre><code><span class="kw">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html</span> <span class="at">lang</span>=<span class="vl">"pt-br"</span><span class="tag">&gt;</span>
+
+  <span class="tag">&lt;head&gt;</span>
+    <span class="tag">&lt;meta</span> <span class="at">charset</span>=<span class="vl">"utf-8"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;title&gt;</span>Página<span class="tag">&lt;/title&gt;</span>
+  <span class="tag">&lt;/head&gt;</span>
+
+  <span class="tag">&lt;body&gt;</span>
+    <span class="tag">&lt;h1&gt;</span>Olá<span class="tag">&lt;/h1&gt;</span>
+    <span class="tag">&lt;p&gt;</span>Conteúdo<span class="tag">&lt;/p&gt;</span>
+  <span class="tag">&lt;/body&gt;</span>
+
+<span class="tag">&lt;/html&gt;</span></code></pre>
+
+      <div class="illu fragment">
+        <svg viewBox="0 0 340 320" role="img">
+          <title>Árvore DOM hierárquica</title>
+          <!-- html node -->
+          <g>
+            <rect x="120" y="20" width="100" height="38" rx="6" fill="rgba(56,189,248,0.18)" stroke="rgba(56,189,248,0.6)" stroke-width="1.2"/>
+            <text font-family="IBM Plex Mono, monospace" font-size="13" fill="#38bdf8" x="170" y="44" text-anchor="middle" font-weight="600">&lt;html&gt;</text>
+          </g>
+          <!-- connector to head/body -->
+          <path d="M170 58 L170 78 M70 78 L270 78 M70 78 L70 96 M270 78 L270 96" stroke="#334155" stroke-width="1" fill="none"/>
+          <!-- head -->
+          <g>
+            <rect x="20" y="96" width="100" height="38" rx="6" fill="rgba(45,212,191,0.14)" stroke="rgba(45,212,191,0.5)" stroke-width="1.2"/>
+            <text font-family="IBM Plex Mono, monospace" font-size="12" fill="#2dd4bf" x="70" y="120" text-anchor="middle" font-weight="500">&lt;head&gt;</text>
+          </g>
+          <!-- body -->
+          <g>
+            <rect x="220" y="96" width="100" height="38" rx="6" fill="rgba(251,191,36,0.12)" stroke="rgba(251,191,36,0.5)" stroke-width="1.2"/>
+            <text font-family="IBM Plex Mono, monospace" font-size="12" fill="#fbbf24" x="270" y="120" text-anchor="middle" font-weight="500">&lt;body&gt;</text>
+          </g>
+          <!-- head children connectors -->
+          <path d="M70 134 L70 154 M30 154 L110 154 M30 154 L30 172 M110 154 L110 172" stroke="#334155" stroke-width="1" fill="none"/>
+          <rect x="2" y="172" width="56" height="32" rx="5" fill="#0f172a" stroke="#475569" stroke-width="0.8"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="10" fill="#94a3b8" x="30" y="192" text-anchor="middle">&lt;meta&gt;</text>
+          <rect x="82" y="172" width="56" height="32" rx="5" fill="#0f172a" stroke="#475569" stroke-width="0.8"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="10" fill="#94a3b8" x="110" y="192" text-anchor="middle">&lt;title&gt;</text>
+          <!-- body children connectors -->
+          <path d="M270 134 L270 154 M230 154 L310 154 M230 154 L230 172 M310 154 L310 172" stroke="#334155" stroke-width="1" fill="none"/>
+          <rect x="202" y="172" width="56" height="32" rx="5" fill="#0f172a" stroke="#475569" stroke-width="0.8"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="10" fill="#94a3b8" x="230" y="192" text-anchor="middle">&lt;h1&gt;</text>
+          <rect x="282" y="172" width="56" height="32" rx="5" fill="#0f172a" stroke="#475569" stroke-width="0.8"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="10" fill="#94a3b8" x="310" y="192" text-anchor="middle">&lt;p&gt;</text>
+          <!-- caption -->
+          <line x1="40" y1="240" x2="300" y2="240" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="10" fill="#64748b" x="170" y="262" text-anchor="middle">Document Object Model</text>
+          <text font-family="DM Sans, sans-serif" font-size="9" fill="#475569" x="170" y="278" text-anchor="middle">estrutura hierárquica de elementos</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="slide-title">
+      <h3>Função de cada parte</h3>
+      <span class="slide-num">03 · 02</span>
+    </div>
+    <div class="g4">
+      <div class="card-line fragment">
+        <div class="mc-label" style="color: var(--purple)">DOCTYPE</div>
+        <p style="font-size:0.55em; color: var(--text-dim); margin-top:8px; line-height:1.6">Declara o tipo do documento como HTML5</p>
+      </div>
+      <div class="card-line card-line-t fragment">
+        <div class="mc-label" style="color: var(--teal)">html</div>
+        <p style="font-size:0.55em; color: var(--text-dim); margin-top:8px; line-height:1.6">Elemento raiz que envolve todo o documento</p>
+      </div>
+      <div class="card-line fragment">
+        <div class="mc-label">head</div>
+        <p style="font-size:0.55em; color: var(--text-dim); margin-top:8px; line-height:1.6">Metadados invisíveis: título, charset, links</p>
+      </div>
+      <div class="card-line card-line-a fragment">
+        <div class="mc-label" style="color: var(--amber)">body</div>
+        <p style="font-size:0.55em; color: var(--text-dim); margin-top:8px; line-height:1.6">Todo o conteúdo visível ao usuário</p>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- ═══════════════════════════════════════ TAGS -->
+<section>
+  <section class="sec-intro">
+    <p class="sec-num">Capítulo 04</p>
+    <h2>Tags HTML</h2>
+    <p class="sec-tagline">Os blocos de construção que marcam cada pedaço de conteúdo na página.</p>
+  </section>
+
+  <section>
+    <div class="slide-title">
+      <h3>Anatomia de uma tag</h3>
+      <span class="slide-num">04 · 01</span>
+    </div>
+    <div class="illu">
+      <svg viewBox="0 0 720 200" role="img">
+        <title>Anatomia de tag HTML</title>
+        <!-- Code line -->
+        <text font-family="IBM Plex Mono, monospace" font-size="26" x="360" y="76" text-anchor="middle">
+          <tspan fill="#38bdf8">&lt;a</tspan><tspan fill="rgba(255,255,255,0.2)"> </tspan><tspan fill="#2dd4bf">href</tspan><tspan fill="#64748b">=</tspan><tspan fill="#fbbf24">"index.html"</tspan><tspan fill="#38bdf8">&gt;</tspan><tspan fill="#e2e8f0">  Início  </tspan><tspan fill="#38bdf8">&lt;/a&gt;</tspan>
+        </text>
+
+        <!-- Annotations -->
+        <g>
+          <line x1="172" y1="92" x2="172" y2="124" stroke="#38bdf8" stroke-width="1" stroke-dasharray="3 3" opacity="0.6"/>
+          <rect x="118" y="128" width="108" height="28" rx="4" fill="rgba(56,189,248,0.1)" stroke="rgba(56,189,248,0.4)" stroke-width="0.8"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="11" fill="#38bdf8" x="172" y="146" text-anchor="middle">tag de abertura</text>
+        </g>
+        <g>
+          <line x1="298" y1="92" x2="298" y2="124" stroke="#2dd4bf" stroke-width="1" stroke-dasharray="3 3" opacity="0.6"/>
+          <rect x="240" y="128" width="116" height="28" rx="4" fill="rgba(45,212,191,0.1)" stroke="rgba(45,212,191,0.4)" stroke-width="0.8"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="11" fill="#2dd4bf" x="298" y="146" text-anchor="middle">atributo + valor</text>
+        </g>
+        <g>
+          <line x1="488" y1="92" x2="488" y2="124" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 3" opacity="0.6"/>
+          <rect x="446" y="128" width="84" height="28" rx="4" fill="rgba(148,163,184,0.08)" stroke="rgba(148,163,184,0.3)" stroke-width="0.8"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="11" fill="#94a3b8" x="488" y="146" text-anchor="middle">conteúdo</text>
+        </g>
+        <g>
+          <line x1="592" y1="92" x2="592" y2="124" stroke="#38bdf8" stroke-width="1" stroke-dasharray="3 3" opacity="0.6"/>
+          <rect x="538" y="128" width="108" height="28" rx="4" fill="rgba(56,189,248,0.1)" stroke="rgba(56,189,248,0.4)" stroke-width="0.8"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="11" fill="#38bdf8" x="592" y="146" text-anchor="middle">tag de fechamento</text>
+        </g>
+
+        <text font-family="DM Sans, sans-serif" font-size="10" fill="#64748b" x="360" y="184" text-anchor="middle">tag = elemento marcador · atributo = configuração · conteúdo = valor renderizado</text>
+      </svg>
+    </div>
+  </section>
+
+  <section>
+    <div class="slide-title">
+      <h3>Com fechamento &times; void elements</h3>
+      <span class="slide-num">04 · 02</span>
+    </div>
+    <div class="g2">
+      <div>
+        <p style="font-size: 0.55em; color: var(--text-dim); margin-bottom: 12px; font-family: var(--mono); text-transform: uppercase; letter-spacing: 1.5px">com fechamento</p>
+        <pre><code><span class="tag">&lt;p&gt;</span>Parágrafo<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;h1&gt;</span>Título<span class="tag">&lt;/h1&gt;</span>
+<span class="tag">&lt;a</span> <span class="at">href</span>=<span class="vl">"#"</span><span class="tag">&gt;</span>Link<span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;div&gt;</span>Container<span class="tag">&lt;/div&gt;</span></code></pre>
+      </div>
+      <div class="fragment">
+        <p style="font-size: 0.55em; color: var(--text-dim); margin-bottom: 12px; font-family: var(--mono); text-transform: uppercase; letter-spacing: 1.5px">void elements</p>
+        <pre><code><span class="tag">&lt;img</span> <span class="at">src</span>=<span class="vl">"f.jpg"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;br&gt;</span>
+<span class="tag">&lt;hr&gt;</span>
+<span class="tag">&lt;input</span> <span class="at">type</span>=<span class="vl">"text"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;meta</span> <span class="at">charset</span>=<span class="vl">"utf-8"</span><span class="tag">&gt;</span></code></pre>
+        <div class="note">
+          Void elements não têm conteúdo interno, então dispensam tag de fechamento.
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- ═══════════════════════════════════════ TEXTOS -->
+<section>
+  <section class="sec-intro">
+    <p class="sec-num">Capítulo 05</p>
+    <h2>Textos &amp; Hierarquia</h2>
+    <p class="sec-tagline">Como organizar e dar importância visual ao conteúdo textual.</p>
+  </section>
+
+  <section>
+    <div class="slide-title">
+      <h3>Hierarquia de cabeçalhos</h3>
+      <span class="slide-num">05 · 01</span>
+    </div>
+    <div class="illu">
+      <svg viewBox="0 0 720 280" role="img">
+        <title>Hierarquia visual de h1 até h6</title>
+        <!-- Bars -->
+        <g>
+          <rect x="40" y="22" width="640" height="28" rx="5" fill="rgba(56,189,248,0.22)" stroke="rgba(56,189,248,0.5)" stroke-width="1"/>
+          <text font-family="Fraunces, serif" font-size="18" fill="#fff" x="58" y="42" font-weight="600">Título Principal</text>
+          <text font-family="IBM Plex Mono, monospace" font-size="11" fill="#38bdf8" x="660" y="42" text-anchor="end">&lt;h1&gt;</text>
+        </g>
+        <g>
+          <rect x="40" y="58" width="540" height="25" rx="5" fill="rgba(56,189,248,0.16)" stroke="rgba(56,189,248,0.35)" stroke-width="1"/>
+          <text font-family="Fraunces, serif" font-size="15" fill="#e2e8f0" x="58" y="76" font-weight="500">Seção</text>
+          <text font-family="IBM Plex Mono, monospace" font-size="11" fill="#38bdf8" x="572" y="76" text-anchor="end" opacity="0.85">&lt;h2&gt;</text>
+        </g>
+        <g>
+          <rect x="40" y="91" width="450" height="22" rx="5" fill="rgba(56,189,248,0.12)" stroke="rgba(56,189,248,0.25)" stroke-width="1"/>
+          <text font-family="Fraunces, serif" font-size="13" fill="#cbd5e1" x="58" y="107">Subseção</text>
+          <text font-family="IBM Plex Mono, monospace" font-size="11" fill="#38bdf8" x="482" y="107" text-anchor="end" opacity="0.7">&lt;h3&gt;</text>
+        </g>
+        <g>
+          <rect x="40" y="121" width="370" height="20" rx="5" fill="rgba(56,189,248,0.08)" stroke="rgba(56,189,248,0.18)" stroke-width="1"/>
+          <text font-family="Fraunces, serif" font-size="12" fill="#94a3b8" x="58" y="135">Tópico menor</text>
+          <text font-family="IBM Plex Mono, monospace" font-size="11" fill="#38bdf8" x="402" y="135" text-anchor="end" opacity="0.55">&lt;h4&gt;</text>
+        </g>
+        <g>
+          <rect x="40" y="149" width="290" height="18" rx="5" fill="rgba(56,189,248,0.06)" stroke="rgba(56,189,248,0.14)" stroke-width="1"/>
+          <text font-family="Fraunces, serif" font-size="11" fill="#64748b" x="58" y="162">Subtópico</text>
+          <text font-family="IBM Plex Mono, monospace" font-size="10" fill="#38bdf8" x="322" y="162" text-anchor="end" opacity="0.4">&lt;h5&gt;</text>
+        </g>
+        <g>
+          <rect x="40" y="175" width="220" height="16" rx="5" fill="rgba(56,189,248,0.04)" stroke="rgba(56,189,248,0.1)" stroke-width="1"/>
+          <text font-family="Fraunces, serif" font-size="10" fill="#475569" x="58" y="187">Mínimo</text>
+          <text font-family="IBM Plex Mono, monospace" font-size="10" fill="#38bdf8" x="252" y="187" text-anchor="end" opacity="0.3">&lt;h6&gt;</text>
+        </g>
+
+        <line x1="40" y1="218" x2="680" y2="218" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+        <text font-family="DM Sans, sans-serif" font-size="11" fill="#94a3b8" x="360" y="240" text-anchor="middle" font-weight="500">Use apenas um &lt;h1&gt; por página</text>
+        <text font-family="DM Sans, sans-serif" font-size="10" fill="#64748b" x="360" y="258" text-anchor="middle">A hierarquia importa para SEO e leitores de tela</text>
+      </svg>
+    </div>
+  </section>
+
+  <section>
+    <div class="slide-title">
+      <h3>Formatação de texto</h3>
+      <span class="slide-num">05 · 02</span>
+    </div>
+    <div class="two">
+      <pre><code><span class="tag">&lt;p&gt;</span>Este é um parágrafo
+   com <span class="tag">&lt;strong&gt;</span>texto forte<span class="tag">&lt;/strong&gt;</span>
+   e também <span class="tag">&lt;em&gt;</span>ênfase<span class="tag">&lt;/em&gt;</span>.<span class="tag">&lt;/p&gt;</span>
+
+<span class="tag">&lt;p&gt;</span>Quebra de linha<span class="tag">&lt;br&gt;</span>
+   na próxima linha.<span class="tag">&lt;/p&gt;</span>
+
+<span class="tag">&lt;hr&gt;</span> <span class="cm">// linha horizontal</span></code></pre>
+      <div class="fragment">
+        <p style="font-size: 0.55em; color: var(--text-dim); margin-bottom: 10px; font-family: var(--mono); text-transform: uppercase; letter-spacing: 1.5px">resultado renderizado</p>
+        <div class="demo-box">
+          <p style="margin:0 0 12px">Este é um parágrafo com <strong>texto forte</strong> e também <em>ênfase</em>.</p>
+          <p style="margin:0 0 12px">Quebra de linha<br>na próxima linha.</p>
+          <hr style="border:none; border-top:1px solid #cbd5e1; margin:12px 0">
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- ═══════════════════════════════════════ LINKS & IMAGENS -->
+<section>
+  <section class="sec-intro">
+    <p class="sec-num">Capítulo 06</p>
+    <h2>Links &amp; Imagens</h2>
+    <p class="sec-tagline">Os elementos que conectam páginas e enriquecem o conteúdo visual.</p>
+  </section>
+
+  <section>
+    <div class="slide-title">
+      <h3>Tag âncora</h3>
+      <span class="slide-num">06 · 01</span>
+    </div>
+    <div class="two">
+      <div>
+        <pre><code><span class="tag">&lt;a</span>
+  <span class="at">href</span>=<span class="vl">"https://google.com"</span>
+  <span class="at">target</span>=<span class="vl">"_blank"</span>
+  <span class="at">rel</span>=<span class="vl">"noopener"</span>
+<span class="tag">&gt;</span>
+  Abrir Google
+<span class="tag">&lt;/a&gt;</span></code></pre>
+        <ul style="margin-top: 16px">
+          <li class="fragment"><code>href</code> &mdash; destino do link</li>
+          <li class="fragment"><code>target="_blank"</code> &mdash; abre em nova aba</li>
+        </ul>
+      </div>
+      <div class="fragment">
+        <p style="font-size: 0.55em; color: var(--text-dim); margin-bottom: 10px; font-family: var(--mono); text-transform: uppercase; letter-spacing: 1.5px">tipos de link</p>
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <div class="card-line" style="padding: 14px 18px"><code style="font-size:0.65em">https://site.com</code><div style="font-size: 0.5em; color: var(--muted); margin-top: 4px">externo &mdash; outra página</div></div>
+          <div class="card-line card-line-t" style="padding: 14px 18px"><code style="font-size:0.65em">pagina.html</code><div style="font-size: 0.5em; color: var(--muted); margin-top: 4px">interno &mdash; mesmo site</div></div>
+          <div class="card-line card-line-a" style="padding: 14px 18px"><code style="font-size:0.65em">mailto:x@x.com</code><div style="font-size: 0.5em; color: var(--muted); margin-top: 4px">e-mail</div></div>
+          <div class="card-line card-line-p" style="padding: 14px 18px"><code style="font-size:0.65em">tel:+5585...</code><div style="font-size: 0.5em; color: var(--muted); margin-top: 4px">telefone</div></div>
+          <div class="card-line card-line-r" style="padding: 14px 18px"><code style="font-size:0.65em">#secao</code><div style="font-size: 0.5em; color: var(--muted); margin-top: 4px">âncora interna na mesma página</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="slide-title">
+      <h3>Tag de imagem</h3>
+      <span class="slide-num">06 · 02</span>
+    </div>
+    <div class="two-narrow">
+      <pre><code><span class="tag">&lt;img</span>
+  <span class="at">src</span>=<span class="vl">"foto.jpg"</span>
+  <span class="at">alt</span>=<span class="vl">"Descrição"</span>
+  <span class="at">width</span>=<span class="vl">"300"</span>
+  <span class="at">height</span>=<span class="vl">"200"</span>
+<span class="tag">&gt;</span></code></pre>
+      <div class="fragment illu">
+        <svg viewBox="0 0 360 220" role="img">
+          <title>Mockup de imagem com texto alternativo</title>
+          <!-- Frame -->
+          <rect x="20" y="20" width="320" height="180" rx="10" fill="#0f172a" stroke="rgba(56,189,248,0.3)" stroke-width="1.2"/>
+          <!-- Image placeholder with mountain scene -->
+          <defs>
+            <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#1e293b"/>
+              <stop offset="1" stop-color="#0f172a"/>
+            </linearGradient>
+          </defs>
+          <rect x="36" y="36" width="288" height="148" rx="6" fill="url(#skyGrad)"/>
+          <!-- Sun -->
+          <circle cx="270" cy="70" r="12" fill="rgba(251,191,36,0.4)" stroke="rgba(251,191,36,0.7)" stroke-width="1"/>
+          <!-- Mountains -->
+          <path d="M36 184 L100 110 L150 140 L210 90 L260 130 L324 100 L324 184 Z" fill="rgba(56,189,248,0.15)" stroke="rgba(56,189,248,0.4)" stroke-width="1.2"/>
+          <path d="M36 184 L80 140 L130 160 L180 130 L240 155 L300 125 L324 145 L324 184 Z" fill="rgba(45,212,191,0.18)" stroke="rgba(45,212,191,0.4)" stroke-width="1"/>
+          <!-- alt label -->
+          <rect x="44" y="44" width="60" height="20" rx="4" fill="rgba(0,0,0,0.6)" stroke="rgba(56,189,248,0.4)" stroke-width="0.8"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="9" fill="#38bdf8" x="74" y="58" text-anchor="middle">alt: ✓</text>
+        </svg>
+      </div>
+    </div>
+    <div class="note" style="margin-top: 18px">
+      O atributo <code>alt</code> é essencial para acessibilidade — leitores de tela usam-no para descrever a imagem para usuários com deficiência visual.
+    </div>
+  </section>
+</section>
+
+<!-- ═══════════════════════════════════════ LISTAS -->
+<section>
+  <section class="sec-intro">
+    <p class="sec-num">Capítulo 07</p>
+    <h2>Listas</h2>
+    <p class="sec-tagline">Para agrupar itens relacionados de forma estruturada.</p>
+  </section>
+
+  <section>
+    <div class="slide-title">
+      <h3>Ordenadas &amp; não ordenadas</h3>
+      <span class="slide-num">07 · 01</span>
+    </div>
+    <div class="g2">
+      <div class="card-line fragment">
+        <div class="mc-label">ul &mdash; não ordenada</div>
+        <pre style="margin-top: 14px; font-size: 0.55em"><code><span class="tag">&lt;ul&gt;</span>
+  <span class="tag">&lt;li&gt;</span>HTML<span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span>CSS<span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span>JavaScript<span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ul&gt;</span></code></pre>
+        <div class="demo-box" style="margin-top: 14px">
+          <ul style="margin: 0; padding-left: 20px; list-style: disc; gap: 0">
+            <li style="background: none; border: none; padding: 2px 0; display: list-item; font-size: 1em">HTML</li>
+            <li style="background: none; border: none; padding: 2px 0; display: list-item; font-size: 1em">CSS</li>
+            <li style="background: none; border: none; padding: 2px 0; display: list-item; font-size: 1em">JavaScript</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card-line card-line-a fragment">
+        <div class="mc-label" style="color: var(--amber)">ol &mdash; ordenada</div>
+        <pre style="margin-top: 14px; font-size: 0.55em"><code><span class="tag">&lt;ol&gt;</span>
+  <span class="tag">&lt;li&gt;</span>HTML<span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span>CSS<span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span>JavaScript<span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ol&gt;</span></code></pre>
+        <div class="demo-box" style="margin-top: 14px">
+          <ol style="margin: 0; padding-left: 20px; list-style: decimal; gap: 0">
+            <li style="background: none; border: none; padding: 2px 0; display: list-item; font-size: 1em">HTML</li>
+            <li style="background: none; border: none; padding: 2px 0; display: list-item; font-size: 1em">CSS</li>
+            <li style="background: none; border: none; padding: 2px 0; display: list-item; font-size: 1em">JavaScript</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- ═══════════════════════════════════════ TABELAS -->
+<section>
+  <section class="sec-intro">
+    <p class="sec-num">Capítulo 08</p>
+    <h2>Tabelas</h2>
+    <p class="sec-tagline">Para apresentar dados em linhas e colunas de forma organizada.</p>
+  </section>
+
+  <section>
+    <div class="slide-title">
+      <h3>Estrutura básica</h3>
+      <span class="slide-num">08 · 01</span>
+    </div>
+    <div class="two">
+      <pre><code><span class="tag">&lt;table&gt;</span>
+  <span class="tag">&lt;thead&gt;</span>
+    <span class="tag">&lt;tr&gt;</span>
+      <span class="tag">&lt;th&gt;</span>Nome<span class="tag">&lt;/th&gt;</span>
+      <span class="tag">&lt;th&gt;</span>Nota<span class="tag">&lt;/th&gt;</span>
+    <span class="tag">&lt;/tr&gt;</span>
+  <span class="tag">&lt;/thead&gt;</span>
+  <span class="tag">&lt;tbody&gt;</span>
+    <span class="tag">&lt;tr&gt;</span>
+      <span class="tag">&lt;td&gt;</span>Ana<span class="tag">&lt;/td&gt;</span>
+      <span class="tag">&lt;td&gt;</span>9.5<span class="tag">&lt;/td&gt;</span>
+    <span class="tag">&lt;/tr&gt;</span>
+  <span class="tag">&lt;/tbody&gt;</span>
+<span class="tag">&lt;/table&gt;</span></code></pre>
+
+      <div class="fragment">
+        <p style="font-size: 0.55em; color: var(--text-dim); margin-bottom: 10px; font-family: var(--mono); text-transform: uppercase; letter-spacing: 1.5px">renderização</p>
+        <div class="demo-box" style="padding: 0; overflow: hidden">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.85em">
+            <thead>
+              <tr>
+                <th style="background: #f1f5f9; padding: 12px 16px; text-align: left; font-weight: 600; border-bottom: 2px solid #cbd5e1">Nome</th>
+                <th style="background: #f1f5f9; padding: 12px 16px; text-align: left; font-weight: 600; border-bottom: 2px solid #cbd5e1">Nota</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td style="padding: 10px 16px; border-bottom: 1px solid #e2e8f0">Ana</td><td style="padding: 10px 16px; border-bottom: 1px solid #e2e8f0; color: #059669; font-weight: 600">9.5</td></tr>
+              <tr style="background: #f8fafc"><td style="padding: 10px 16px; border-bottom: 1px solid #e2e8f0">João</td><td style="padding: 10px 16px; border-bottom: 1px solid #e2e8f0; color: #059669; font-weight: 600">8.0</td></tr>
+              <tr><td style="padding: 10px 16px">Maria</td><td style="padding: 10px 16px; color: #059669; font-weight: 600">10.0</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="stat-row">
+          <div class="stat"><span class="stat-num">3</span><span class="stat-label">linhas</span></div>
+          <div class="stat"><span class="stat-num">2</span><span class="stat-label">colunas</span></div>
+          <div class="stat"><span class="stat-num">9.2</span><span class="stat-label">média</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- ═══════════════════════════════════════ FORMULÁRIOS -->
+<section>
+  <section class="sec-intro">
+    <p class="sec-num">Capítulo 09</p>
+    <h2>Formulários</h2>
+    <p class="sec-tagline">Como coletar dados do usuário e enviá-los ao servidor.</p>
+  </section>
+
+  <section>
+    <div class="slide-title">
+      <h3>Estrutura de formulário</h3>
+      <span class="slide-num">09 · 01</span>
+    </div>
+    <div class="two">
+      <pre><code><span class="tag">&lt;form</span> <span class="at">method</span>=<span class="vl">"post"</span><span class="tag">&gt;</span>
+
+  <span class="tag">&lt;label&gt;</span>Nome
+    <span class="tag">&lt;input</span> <span class="at">type</span>=<span class="vl">"text"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;/label&gt;</span>
+
+  <span class="tag">&lt;label&gt;</span>E-mail
+    <span class="tag">&lt;input</span> <span class="at">type</span>=<span class="vl">"email"</span> <span class="at">required</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;/label&gt;</span>
+
+  <span class="tag">&lt;button</span> <span class="at">type</span>=<span class="vl">"submit"</span><span class="tag">&gt;</span>
+    Enviar
+  <span class="tag">&lt;/button&gt;</span>
+
+<span class="tag">&lt;/form&gt;</span></code></pre>
+
+      <div class="fragment">
+        <p style="font-size: 0.55em; color: var(--text-dim); margin-bottom: 10px; font-family: var(--mono); text-transform: uppercase; letter-spacing: 1.5px">preview interativo</p>
+        <div class="demo-box">
+          <div style="margin-bottom: 14px">
+            <div style="font-size: 0.7em; color: #64748b; margin-bottom: 4px; font-weight: 500">NOME</div>
+            <input type="text" placeholder="Seu nome completo" style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.9em; box-sizing: border-box; font-family: inherit">
+          </div>
+          <div style="margin-bottom: 14px">
+            <div style="font-size: 0.7em; color: #64748b; margin-bottom: 4px; font-weight: 500">E-MAIL</div>
+            <input type="email" placeholder="email@exemplo.com" style="width: 100%; padding: 10px 14px; border: 1px solid #2563eb; border-radius: 6px; font-size: 0.9em; box-sizing: border-box; font-family: inherit">
+          </div>
+          <div style="display: flex; gap: 12px; margin-bottom: 14px; font-size: 0.8em">
+            <label style="display: flex; align-items: center; gap: 6px; cursor: pointer"><input type="checkbox" checked> Aceito os termos</label>
+          </div>
+          <button type="button" style="background: #2563eb; color: white; padding: 10px 24px; border: none; border-radius: 6px; font-size: 0.9em; cursor: pointer; font-family: inherit; font-weight: 600">Enviar</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="slide-title">
+      <h3>Tipos de input</h3>
+      <span class="slide-num">09 · 02</span>
+    </div>
+    <div class="g3">
+      <div class="mc fragment">
+        <svg class="mc-icon" viewBox="0 0 42 42">
+          <rect x="6" y="6" width="30" height="30" rx="4" fill="none" stroke="#38bdf8" stroke-width="1.8"/>
+          <path d="M13 21 L19 27 L29 15" stroke="#2dd4bf" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="mc-label">checkbox</div>
+        <div class="mc-desc">Múltipla escolha &mdash; o usuário pode marcar várias opções</div>
+      </div>
+      <div class="mc fragment">
+        <svg class="mc-icon" viewBox="0 0 42 42">
+          <circle cx="21" cy="21" r="14" fill="none" stroke="#38bdf8" stroke-width="1.8"/>
+          <circle cx="21" cy="21" r="6" fill="#2dd4bf"/>
+        </svg>
+        <div class="mc-label">radio</div>
+        <div class="mc-desc">Escolha única &mdash; apenas uma opção do grupo</div>
+      </div>
+      <div class="mc fragment">
+        <svg class="mc-icon" viewBox="0 0 42 42">
+          <rect x="5" y="11" width="32" height="20" rx="3" fill="none" stroke="#38bdf8" stroke-width="1.8"/>
+          <path d="M14 19 L21 25 L28 19" stroke="#38bdf8" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="mc-label">select</div>
+        <div class="mc-desc">Lista dropdown com várias opções pré-definidas</div>
+      </div>
+      <div class="mc fragment">
+        <svg class="mc-icon" viewBox="0 0 42 42">
+          <rect x="5" y="9" width="32" height="26" rx="3" fill="none" stroke="#38bdf8" stroke-width="1.8"/>
+          <line x1="5" y1="16" x2="37" y2="16" stroke="#38bdf8" stroke-width="1.8"/>
+          <line x1="13" y1="5" x2="13" y2="13" stroke="#38bdf8" stroke-width="1.8" stroke-linecap="round"/>
+          <line x1="29" y1="5" x2="29" y2="13" stroke="#38bdf8" stroke-width="1.8" stroke-linecap="round"/>
+          <rect x="11" y="21" width="6" height="6" rx="1" fill="#2dd4bf"/>
+        </svg>
+        <div class="mc-label">date</div>
+        <div class="mc-desc">Seleção de data via calendário interativo</div>
+      </div>
+      <div class="mc fragment">
+        <svg class="mc-icon" viewBox="0 0 42 42">
+          <path d="M5 14a2 2 0 012-2h8l3 4h13a2 2 0 012 2v12a2 2 0 01-2 2H7a2 2 0 01-2-2z" fill="none" stroke="#38bdf8" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="M21 22 v6 M18 25 l3 -3 l3 3" stroke="#2dd4bf" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="mc-label">file</div>
+        <div class="mc-desc">Upload de arquivos do dispositivo do usuário</div>
+      </div>
+      <div class="mc fragment">
+        <svg class="mc-icon" viewBox="0 0 42 42">
+          <circle cx="21" cy="21" r="14" fill="none" stroke="#38bdf8" stroke-width="1.8"/>
+          <path d="M21 7 A14 14 0 0 1 21 35 A7 7 0 0 1 21 21 A7 7 0 0 0 21 7 Z" fill="#2dd4bf"/>
+        </svg>
+        <div class="mc-label">color</div>
+        <div class="mc-desc">Seletor visual de cores em formato hexadecimal</div>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- ═══════════════════════════════════════ SEMÂNTICA -->
+<section>
+  <section class="sec-intro">
+    <p class="sec-num">Capítulo 10</p>
+    <h2>HTML Semântico</h2>
+    <p class="sec-tagline">Tags que dão significado ao conteúdo, não apenas estrutura visual.</p>
+  </section>
+
+  <section>
+    <div class="slide-title">
+      <h3>Layout semântico de uma página</h3>
+      <span class="slide-num">10 · 01</span>
+    </div>
+    <div class="illu">
+      <svg viewBox="0 0 720 360" role="img">
+        <title>Estrutura semântica de página</title>
+        <!-- Page frame -->
+        <rect x="40" y="20" width="640" height="320" rx="12" fill="#060b14" stroke="#1e293b" stroke-width="1"/>
+
+        <!-- Header -->
+        <g>
+          <rect x="56" y="36" width="608" height="50" rx="8" fill="rgba(56,189,248,0.14)" stroke="rgba(56,189,248,0.45)" stroke-width="1"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="11" fill="#38bdf8" x="80" y="66" font-weight="600">&lt;header&gt;</text>
+          <!-- nav inside header -->
+          <rect x="320" y="48" width="328" height="26" rx="4" fill="rgba(56,189,248,0.08)" stroke="rgba(56,189,248,0.25)" stroke-width="0.8"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="10" fill="#38bdf8" x="484" y="65" text-anchor="middle" opacity="0.75">&lt;nav&gt;</text>
+          <circle cx="364" cy="61" r="2" fill="#38bdf8" opacity="0.6"/>
+          <circle cx="404" cy="61" r="2" fill="#38bdf8" opacity="0.6"/>
+          <circle cx="444" cy="61" r="2" fill="#38bdf8" opacity="0.6"/>
+        </g>
+
+        <!-- Main content -->
+        <g>
+          <rect x="56" y="96" width="436" height="186" rx="8" fill="rgba(45,212,191,0.06)" stroke="rgba(45,212,191,0.4)" stroke-width="1"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="11" fill="#2dd4bf" x="80" y="120" font-weight="600">&lt;main&gt;</text>
+          <!-- article -->
+          <rect x="68" y="132" width="412" height="68" rx="6" fill="rgba(45,212,191,0.08)" stroke="rgba(45,212,191,0.3)" stroke-width="0.8"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="10" fill="#2dd4bf" x="84" y="152" opacity="0.85">&lt;article&gt;</text>
+          <rect x="84" y="160" width="380" height="4" rx="2" fill="#2dd4bf" opacity="0.25"/>
+          <rect x="84" y="170" width="320" height="4" rx="2" fill="#2dd4bf" opacity="0.18"/>
+          <rect x="84" y="180" width="350" height="4" rx="2" fill="#2dd4bf" opacity="0.18"/>
+          <!-- section -->
+          <rect x="68" y="208" width="412" height="62" rx="6" fill="rgba(45,212,191,0.06)" stroke="rgba(45,212,191,0.25)" stroke-width="0.8"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="10" fill="#2dd4bf" x="84" y="228" opacity="0.7">&lt;section&gt;</text>
+          <rect x="84" y="236" width="280" height="4" rx="2" fill="#2dd4bf" opacity="0.2"/>
+          <rect x="84" y="246" width="340" height="4" rx="2" fill="#2dd4bf" opacity="0.15"/>
+          <rect x="84" y="256" width="260" height="4" rx="2" fill="#2dd4bf" opacity="0.15"/>
+        </g>
+
+        <!-- Aside -->
+        <g>
+          <rect x="504" y="96" width="160" height="186" rx="8" fill="rgba(251,191,36,0.07)" stroke="rgba(251,191,36,0.4)" stroke-width="1"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="11" fill="#fbbf24" x="584" y="118" text-anchor="middle" font-weight="600">&lt;aside&gt;</text>
+          <rect x="520" y="138" width="128" height="40" rx="4" fill="rgba(251,191,36,0.06)" stroke="rgba(251,191,36,0.2)" stroke-width="0.6"/>
+          <rect x="520" y="186" width="128" height="40" rx="4" fill="rgba(251,191,36,0.06)" stroke="rgba(251,191,36,0.2)" stroke-width="0.6"/>
+          <rect x="520" y="234" width="128" height="40" rx="4" fill="rgba(251,191,36,0.06)" stroke="rgba(251,191,36,0.2)" stroke-width="0.6"/>
+        </g>
+
+        <!-- Footer -->
+        <g>
+          <rect x="56" y="292" width="608" height="36" rx="8" fill="rgba(100,116,139,0.1)" stroke="rgba(100,116,139,0.35)" stroke-width="1"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="11" fill="#94a3b8" x="360" y="315" text-anchor="middle" font-weight="600">&lt;footer&gt;</text>
+        </g>
+      </svg>
+    </div>
+  </section>
+
+  <section>
+    <div class="slide-title">
+      <h3>Por que usar HTML semântico?</h3>
+      <span class="slide-num">10 · 02</span>
+    </div>
+    <div class="g3">
+      <div class="card-line fragment">
+        <div class="mc-label">Acessibilidade</div>
+        <p style="font-size: 0.55em; color: var(--text-dim); margin-top: 10px; line-height: 1.6">Leitores de tela interpretam o conteúdo corretamente, beneficiando usuários com deficiência visual.</p>
+      </div>
+      <div class="card-line card-line-t fragment">
+        <div class="mc-label" style="color: var(--teal)">SEO</div>
+        <p style="font-size: 0.55em; color: var(--text-dim); margin-top: 10px; line-height: 1.6">Motores de busca como Google indexam o conteúdo de forma mais eficiente e relevante.</p>
+      </div>
+      <div class="card-line card-line-a fragment">
+        <div class="mc-label" style="color: var(--amber)">Manutenção</div>
+        <p style="font-size: 0.55em; color: var(--text-dim); margin-top: 10px; line-height: 1.6">Código mais legível, organizado e fácil de manter ao longo do tempo.</p>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- ═══════════════════════════════════════ CSS -->
+<section>
+  <section class="sec-intro">
+    <p class="sec-num">Capítulo 11</p>
+    <h2>CSS</h2>
+    <p class="sec-tagline">Cascading Style Sheets &mdash; a linguagem que define como o HTML deve ser apresentado.</p>
+  </section>
+
+  <section>
+    <div class="slide-title">
+      <h3>Anatomia de uma regra</h3>
+      <span class="slide-num">11 · 01</span>
+    </div>
+    <div class="illu">
+      <svg viewBox="0 0 720 200" role="img">
+        <title>Anatomia de regra CSS</title>
+        <text font-family="IBM Plex Mono, monospace" font-size="26" x="360" y="76" text-anchor="middle">
+          <tspan fill="#38bdf8">p</tspan><tspan fill="#94a3b8"> { </tspan><tspan fill="#c084fc">color</tspan><tspan fill="#94a3b8">: </tspan><tspan fill="#fbbf24">steelblue</tspan><tspan fill="#94a3b8">; }</tspan>
+        </text>
+
+        <g>
+          <line x1="218" y1="92" x2="218" y2="124" stroke="#38bdf8" stroke-width="1" stroke-dasharray="3 3" opacity="0.6"/>
+          <rect x="170" y="128" width="96" height="28" rx="4" fill="rgba(56,189,248,0.1)" stroke="rgba(56,189,248,0.4)" stroke-width="0.8"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="11" fill="#38bdf8" x="218" y="146" text-anchor="middle">seletor</text>
+        </g>
+        <g>
+          <line x1="328" y1="92" x2="328" y2="124" stroke="#c084fc" stroke-width="1" stroke-dasharray="3 3" opacity="0.6"/>
+          <rect x="270" y="128" width="116" height="28" rx="4" fill="rgba(192,132,252,0.1)" stroke="rgba(192,132,252,0.4)" stroke-width="0.8"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="11" fill="#c084fc" x="328" y="146" text-anchor="middle">propriedade</text>
+        </g>
+        <g>
+          <line x1="448" y1="92" x2="448" y2="124" stroke="#fbbf24" stroke-width="1" stroke-dasharray="3 3" opacity="0.6"/>
+          <rect x="402" y="128" width="92" height="28" rx="4" fill="rgba(251,191,36,0.1)" stroke="rgba(251,191,36,0.4)" stroke-width="0.8"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="11" fill="#fbbf24" x="448" y="146" text-anchor="middle">valor</text>
+        </g>
+
+        <text font-family="DM Sans, sans-serif" font-size="10" fill="#64748b" x="360" y="184" text-anchor="middle">declaração = propriedade + valor &middot; várias declarações por bloco</text>
+      </svg>
+    </div>
+  </section>
+
+  <section>
+    <div class="slide-title">
+      <h3>Três formas de aplicar</h3>
+      <span class="slide-num">11 · 02</span>
+    </div>
+    <div class="g3">
+      <div class="card-line card-line-r fragment">
+        <div class="mc-label" style="color: var(--red)">Inline</div>
+        <pre style="margin-top: 12px; font-size: 0.5em; padding: 18px 20px"><code><span class="tag">&lt;p</span> <span class="at">style</span>=<span class="vl">"color:red"</span><span class="tag">&gt;</span></code></pre>
+        <p style="font-size: 0.5em; color: var(--muted); margin-top: 10px">Direto no atributo <code>style</code>. Evite — pouco reutilizável.</p>
+      </div>
+      <div class="card-line card-line-a fragment">
+        <div class="mc-label" style="color: var(--amber)">Interno</div>
+        <pre style="margin-top: 12px; font-size: 0.5em; padding: 18px 20px"><code><span class="tag">&lt;style&gt;</span>
+  <span class="sel">p</span> { <span class="pr">color</span>: <span class="vl">red</span>; }
+<span class="tag">&lt;/style&gt;</span></code></pre>
+        <p style="font-size: 0.5em; color: var(--muted); margin-top: 10px">Bloco <code>&lt;style&gt;</code> dentro do <code>&lt;head&gt;</code>.</p>
+      </div>
+      <div class="card-line card-line-t fragment">
+        <div class="mc-label" style="color: var(--teal)">Externo ✓</div>
+        <pre style="margin-top: 12px; font-size: 0.5em; padding: 18px 20px"><code><span class="tag">&lt;link</span>
+  <span class="at">rel</span>=<span class="vl">"stylesheet"</span>
+  <span class="at">href</span>=<span class="vl">"style.css"</span><span class="tag">&gt;</span></code></pre>
+        <p style="font-size: 0.5em; color: var(--muted); margin-top: 10px">Arquivo <code>.css</code> separado. Recomendado.</p>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- ═══════════════════════════════════════ BOX MODEL -->
+<section>
+  <section class="sec-intro">
+    <p class="sec-num">Capítulo 12</p>
+    <h2>Box Model</h2>
+    <p class="sec-tagline">No CSS, todo elemento é uma caixa retangular composta por quatro camadas.</p>
+  </section>
+
+  <section>
+    <div class="slide-title">
+      <h3>As quatro camadas</h3>
+      <span class="slide-num">12 · 01</span>
+    </div>
+    <div class="two">
+      <div>
+        <ul>
+          <li class="fragment" style="border-left: 3px solid var(--amber); padding-left: 16px"><strong style="color: var(--amber)">Margin</strong> &mdash; espaço externo, separa elementos vizinhos</li>
+          <li class="fragment" style="border-left: 3px solid var(--red); padding-left: 16px"><strong style="color: var(--red)">Border</strong> &mdash; borda visível ao redor do padding</li>
+          <li class="fragment" style="border-left: 3px solid var(--teal); padding-left: 16px"><strong style="color: var(--teal)">Padding</strong> &mdash; espaço interno entre borda e conteúdo</li>
+          <li class="fragment" style="border-left: 3px solid var(--cyan); padding-left: 16px"><strong style="color: var(--cyan)">Content</strong> &mdash; o conteúdo real (texto, imagem)</li>
+        </ul>
+      </div>
+
+      <div class="illu">
+        <svg viewBox="0 0 320 320" role="img">
+          <title>Box model: margin, border, padding, content</title>
+          <!-- Margin -->
+          <rect x="14" y="14" width="292" height="292" rx="8" fill="rgba(251,191,36,0.06)" stroke="rgba(251,191,36,0.5)" stroke-width="1.2" stroke-dasharray="6 4"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="10" fill="#fbbf24" x="160" y="32" text-anchor="middle" font-weight="600">MARGIN</text>
+          <text font-family="IBM Plex Mono, monospace" font-size="9" fill="#fbbf24" x="160" y="298" text-anchor="middle" opacity="0.6">16px</text>
+
+          <!-- Border -->
+          <rect x="44" y="44" width="232" height="232" rx="6" fill="rgba(248,113,113,0.06)" stroke="rgba(248,113,113,0.6)" stroke-width="2"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="10" fill="#f87171" x="160" y="62" text-anchor="middle" font-weight="600">BORDER</text>
+          <text font-family="IBM Plex Mono, monospace" font-size="9" fill="#f87171" x="160" y="268" text-anchor="middle" opacity="0.6">2px solid</text>
+
+          <!-- Padding -->
+          <rect x="72" y="72" width="176" height="176" rx="4" fill="rgba(45,212,191,0.07)" stroke="rgba(45,212,191,0.5)" stroke-width="1.2" stroke-dasharray="4 3"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="10" fill="#2dd4bf" x="160" y="90" text-anchor="middle" font-weight="600">PADDING</text>
+          <text font-family="IBM Plex Mono, monospace" font-size="9" fill="#2dd4bf" x="160" y="240" text-anchor="middle" opacity="0.6">20px</text>
+
+          <!-- Content -->
+          <rect x="100" y="106" width="120" height="108" rx="4" fill="rgba(56,189,248,0.16)" stroke="rgba(56,189,248,0.6)" stroke-width="1.2"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="11" fill="#38bdf8" x="160" y="158" text-anchor="middle" font-weight="600">CONTENT</text>
+          <text font-family="DM Sans, sans-serif" font-size="9" fill="#64748b" x="160" y="174" text-anchor="middle">300 × 200</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="slide-title">
+      <h3>Aplicação prática</h3>
+      <span class="slide-num">12 · 02</span>
+    </div>
+    <pre><code><span class="sel">.card</span> {
+  <span class="pr">width</span>:   <span class="vl">300px</span>;            <span class="cm">// largura do conteúdo</span>
+  <span class="pr">padding</span>: <span class="vl">20px</span>;             <span class="cm">// espaço interno</span>
+  <span class="pr">border</span>:  <span class="vl">2px solid #38bdf8</span>; <span class="cm">// borda visível</span>
+  <span class="pr">margin</span>:  <span class="vl">16px</span>;             <span class="cm">// espaço externo</span>
+}</code></pre>
+    <div class="note">
+      A largura total do elemento será: <code>2 × margin (32) + 2 × border (4) + 2 × padding (40) + width (300) = 376px</code>. Use <code>box-sizing: border-box</code> para incluir border e padding na <code>width</code>.
+    </div>
+  </section>
+</section>
+
+<!-- ═══════════════════════════════════════ SELETORES -->
+<section>
+  <section class="sec-intro">
+    <p class="sec-num">Capítulo 13</p>
+    <h2>Seletores CSS</h2>
+    <p class="sec-tagline">Como escolher exatamente quais elementos da página estilizar.</p>
+  </section>
+
+  <section>
+    <div class="slide-title">
+      <h3>Os três principais</h3>
+      <span class="slide-num">13 · 01</span>
+    </div>
+    <div class="illu">
+      <svg viewBox="0 0 720 220" role="img">
+        <title>Seletores CSS: tag, classe, id</title>
+        <!-- Tag selector -->
+        <g>
+          <rect x="40" y="30" width="200" height="130" rx="10" fill="rgba(56,189,248,0.08)" stroke="rgba(56,189,248,0.45)" stroke-width="1.2"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="32" fill="#38bdf8" x="140" y="84" text-anchor="middle" font-weight="600">p</text>
+          <line x1="80" y1="100" x2="200" y2="100" stroke="rgba(56,189,248,0.3)" stroke-width="1"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="11" fill="#64748b" x="140" y="120" text-anchor="middle">toda tag &lt;p&gt;</text>
+          <text font-family="DM Sans, sans-serif" font-size="11" fill="#94a3b8" x="140" y="146" text-anchor="middle">seletor de tag</text>
+        </g>
+        <!-- Class selector -->
+        <g>
+          <rect x="260" y="30" width="200" height="130" rx="10" fill="rgba(45,212,191,0.08)" stroke="rgba(45,212,191,0.45)" stroke-width="1.2"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="26" fill="#2dd4bf" x="360" y="84" text-anchor="middle" font-weight="600">.titulo</text>
+          <line x1="300" y1="100" x2="420" y2="100" stroke="rgba(45,212,191,0.3)" stroke-width="1"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="11" fill="#64748b" x="360" y="120" text-anchor="middle">class="titulo"</text>
+          <text font-family="DM Sans, sans-serif" font-size="11" fill="#94a3b8" x="360" y="146" text-anchor="middle">reutilizável</text>
+        </g>
+        <!-- ID selector -->
+        <g>
+          <rect x="480" y="30" width="200" height="130" rx="10" fill="rgba(251,191,36,0.08)" stroke="rgba(251,191,36,0.45)" stroke-width="1.2"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="28" fill="#fbbf24" x="580" y="84" text-anchor="middle" font-weight="600">#logo</text>
+          <line x1="520" y1="100" x2="640" y2="100" stroke="rgba(251,191,36,0.3)" stroke-width="1"/>
+          <text font-family="IBM Plex Mono, monospace" font-size="11" fill="#64748b" x="580" y="120" text-anchor="middle">id="logo"</text>
+          <text font-family="DM Sans, sans-serif" font-size="11" fill="#94a3b8" x="580" y="146" text-anchor="middle">único na página</text>
+        </g>
+
+        <!-- Specificity scale -->
+        <text font-family="IBM Plex Mono, monospace" font-size="9" fill="#64748b" x="40" y="190" letter-spacing="1">ESPECIFICIDADE</text>
+        <line x1="40" y1="200" x2="680" y2="200" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+        <line x1="40" y1="200" x2="680" y2="200" stroke="url(#specGrad)" stroke-width="2"/>
+        <defs>
+          <linearGradient id="specGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#38bdf8"/>
+            <stop offset="0.5" stop-color="#2dd4bf"/>
+            <stop offset="1" stop-color="#fbbf24"/>
+          </linearGradient>
+        </defs>
+        <text font-family="IBM Plex Mono, monospace" font-size="9" fill="#38bdf8" x="60" y="214">baixa</text>
+        <text font-family="IBM Plex Mono, monospace" font-size="9" fill="#fbbf24" x="660" y="214" text-anchor="end">alta</text>
+      </svg>
+    </div>
+  </section>
+
+  <section>
+    <div class="slide-title">
+      <h3>Pseudo-classes</h3>
+      <span class="slide-num">13 · 02</span>
+    </div>
+    <div class="two">
+      <pre><code><span class="sel">a:hover</span> {
+  <span class="pr">color</span>: <span class="vl">steelblue</span>;
+  <span class="pr">text-decoration</span>: <span class="vl">none</span>;
+}
+
+<span class="sel">input:focus</span> {
+  <span class="pr">outline</span>: <span class="vl">2px solid cyan</span>;
+}
+
+<span class="sel">li:nth-child(odd)</span> {
+  <span class="pr">background</span>: <span class="vl">#f1f5f9</span>;
+}</code></pre>
+      <div>
+        <ul>
+          <li class="fragment"><code>:hover</code> &mdash; ao passar o mouse</li>
+          <li class="fragment"><code>:focus</code> &mdash; elemento em foco</li>
+          <li class="fragment"><code>:checked</code> &mdash; checkbox marcado</li>
+          <li class="fragment"><code>:first-child</code> &mdash; primeiro filho</li>
+          <li class="fragment"><code>:nth-child(n)</code> &mdash; por posição</li>
+          <li class="fragment"><code>:not(seletor)</code> &mdash; negação</li>
+        </ul>
+        <div class="demo-box fragment" style="margin-top: 14px; text-align: center; padding: 18px">
+          <span class="demo-link">passe o mouse aqui</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
+
+
+<!-- ═══════════════════════════════════════ FINAL -->
+<section class="final">
+  <svg width="100" height="100" viewBox="0 0 100 100" style="margin-bottom: 28px">
+    <circle cx="50" cy="50" r="44" fill="rgba(56,189,248,0.06)" stroke="rgba(56,189,248,0.4)" stroke-width="1.5"/>
+    <path d="M32 50 L44 62 L68 36" stroke="url(#checkGrad)" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <defs>
+      <linearGradient id="checkGrad" x1="32" y1="36" x2="68" y2="62">
+        <stop offset="0" stop-color="#38bdf8"/>
+        <stop offset="1" stop-color="#2dd4bf"/>
+      </linearGradient>
+    </defs>
+  </svg>
+  <p style="font-family: var(--mono); font-size: 0.4em; color: var(--muted); letter-spacing: 5px; text-transform: uppercase; margin-bottom: 20px">Fim da revisão</p>
+  <h1>Fundamentos<br>dominados.</h1>
+  <p style="font-size: 0.55em; color: var(--text-dim); max-width: 460px; line-height: 1.8; font-weight: 300; margin-top: 24px">
+    HTML estrutura, CSS estiliza, JavaScript dinamiza.<br>Com essa base, você está pronto para o próximo nível.
+  </p>
+  <div class="cover-pills" style="margin-top: 32px">
+    <span class="pill pill-b">Estrutura HTML</span>
+    <span class="pill pill-g">Box Model</span>
+    <span class="pill pill-a">Seletores CSS</span>
+  </div>
+</section>
+
+</div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.js"></script>
+<script>
+Reveal.initialize({
+  hash: true,
+  transition: "fade",
+  transitionSpeed: "default",
+  backgroundTransition: "fade",
+  controls: true,
+  progress: true,
+  slideNumber: "c/t",
+  center: true,
+  width: 1280,
+  height: 800,
+  margin: 0.04
+});
+</script>
+</body>
+</html>
